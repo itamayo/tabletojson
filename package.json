@@ -1,8 +1,7 @@
 {
   "author": {
-    "name": "Iain Collins",
-    "email": "me@iaincollins.com",
-    "url": "http://iaincollins.com"
+    "name": "Iñigo Tamayo",
+    "email": "itamayo@vicomtech.org"
   },
   "name": "tabletojson",
   "description": "Converts HTML tables to JSON objects",
@@ -18,7 +17,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/iaincollins/tabletojson.git"
+    "url": "git://github.com/itamayo/tabletojson"
   },
   "dependencies": {
     "cheerio": "0.13.1",
@@ -30,7 +29,7 @@
   },
   "readme": "# Table to JSON\n\nConverts HTML tables to JSON. Can be passed an HTML blob or URL.\n\nCan be passed the markup for a single table, a fragment of HTML or an entire page or a URL (with an optional callback function - also supports promises).\n\nThe response is always an array. Every array entry in the response represents a table found on the page (in same the order they were found in the HTML). \n\nI wrote this because I've been doing a lot of HTML scraping on hack days recently.\n\n## Known issues / limitations\n\nIt only supports parsing basic tables with a simple horizontal set of <th></th> headings and corresponding <td></td> cells.\n\nIt's intended for hackers, you'll need to handle things like work out which tables to parse and (in most cases) to clean up the data. You might want to combine it it with modules like json2csv.\n\nYou might want to use it with a module like 'cheerio' if you want to only ever parse specific tables in a blob of HTML.\n\n## Example usage\n\n``` javascript\n// Convert an HTML blob into an array of all the tables on the page\nvar tabletojson = require('tabletojson');\nvar tablesAsJson = tabletojson.convert(html);\nvar firstTableAsJson = tablesAsJson[0];\nvar secondTableAsJson = tablesAsJson[1];\n...\n```\n\n``` javascript\n// Fetch a URL and parse all it's tables into JSON, using a callback\nvar tabletojson = require('tabletojson');\nvar url = 'http://en.wikipedia.org/wiki/List_of_sovereign_states';\ntabletojson.convertUrl(url, function(tablesAsJson) {\n    var listofSovereignStates = tablesAsJson[0];\n    ...\n});\n```\n\n``` javascript\n// Fetch a URL and parse all it's tables into JSON, using promises\nvar tabletojson = require('tabletojson');\nvar url = 'http://en.wikipedia.org/wiki/List_of_countries_by_credit_rating';\ntabletojson.convertUrl(url)\n.then(function(tablesAsJson) {\n    var standardAndPoorRatings = tablesAsJson[0];\n    var fitchRatings = tablesAsJson[1];\n    ...\n});\n```\n\n``` javascript\n// Fetch a table from Wikipedia and combine with json2csv to convert to CSV\nvar tabletojson = require('tabletojson');\nvar json2csv = require('json2csv');\nvar url = 'http://en.wikipedia.org/wiki/List_of_countries_by_credit_rating';\ntabletojson.convertUrl(url)\n.then(function(tablesAsJson) {\n    var standardAndPoorCreditRatings = tablesAsJson[0];\n    json2csv({ data: standardAndPoorCreditRatings, fields: [ 'Country', 'Outlook'] }, function(err, csv) {\n        console.log(csv);\n        /* Example output\n            \"Country\",\"Outlook\"\n            \"Abu Dhabi, UAE\",\"Stable\"\n            \"Albania\",\"Stable\"\n            \"Andorra\",\"Negative\"\n            \"Angola\",\"Stable\"\n            \"Argentina\",\"Negative\"\n            \"Aruba\",\"Stable\"\n            \"Australia\",\"Stable\"\n            \"Austria\",\"Negative\"\n            \"Azerbaijan\",\"Positive\"\n            ...\n        */\n    });\n});\n```\n",
   "readmeFilename": "README.md",
-  "_id": "tabletojson@0.2.0",
+  "_id": "tabletojson@0.2.1",
   "dist": {
     "shasum": "4735dcd24d5cfa4bd46f8d5c0dd87437aeeea920"
   },
